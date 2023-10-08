@@ -12,9 +12,9 @@ const theme = {
     black: 'black',
     error: 'red',
   },
-  spacing: value => `${value * 2}px`
-
+  spacing: value => `${value * 2}px`,
 }
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
