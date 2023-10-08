@@ -25,25 +25,15 @@ export class App extends Component {
     });
   };
 
-  addListContacts = e => {
-
-    e.preventDefault();
+  addListContacts = addContact => {
     this.setState(prev => ({
+      contacts: [...prev.contacts, { ...addContact, id: nanoid() }].filter(
+        (item, i, arr) => arr.findIndex(it => it.name === item.name) === i
+      ),
+    }));
 
-      contacts: [
-        ...prev.contacts,
-        {
-          id: nanoid(),
-          name: e.target.name.value,
-          number: e.target.number.value,
-        },
-      ].filter(
-        (item, i, arr) => arr.findIndex(it => it.name === item.name) === i)}));
-
-    if (
-      this.state.contacts.some(contact => contact.name === e.target.name.value)
-    ) {
-      return alert(`${e.target.name.value} is already in contacts`);
+    if (this.state.contacts.some(contact => contact.name === addContact.name)) {
+      return alert(`${addContact.name} is already in contacts`);
     }
   };
 

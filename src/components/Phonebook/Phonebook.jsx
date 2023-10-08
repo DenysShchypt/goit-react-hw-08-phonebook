@@ -1,9 +1,10 @@
+import { SectionPhonebook, TitlePhonebook } from './Phonebook.styled';
 
-export const Phonebook = ({title,children}) => {
+export const Phonebook = ({ title, children }) => {
   return (
-    <>
-    <h2>{title}</h2>
-    {children}
-    </>
-  )
-}
+    <SectionPhonebook>
+      <TitlePhonebook>{title}</TitlePhonebook>
+      {children}
+    </SectionPhonebook>
+  );
+};
