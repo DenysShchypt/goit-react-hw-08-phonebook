@@ -20,7 +20,7 @@ export class App extends Component {
     }
   }
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps,prevState) {
     if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
@@ -42,11 +42,10 @@ export class App extends Component {
 
   addListContacts = addContact => {
     this.setState(prev => ({
-      contacts: [...prev.contacts, { ...addContact, id: nanoid() }].filter(
+      contacts: [...prev.contacts, { ...addContact, id: nanoid()}].filter(
         (item, i, arr) => arr.findIndex(it => it.name === item.name) === i
       ),
     }));
-
     if (this.state.contacts.some(contact => contact.name === addContact.name)) {
       return alert(`${addContact.name} is already in contacts`);
     }
