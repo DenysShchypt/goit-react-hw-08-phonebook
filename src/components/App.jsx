@@ -10,6 +10,24 @@ export class App extends Component {
     contacts: [],
     filter: '',
   };
+componentDidMount(){
+  const contactsSave = localStorage.getItem('contacts');
+  if(contactsSave!==null){
+    this.setState({
+      contacts:JSON.parse(contactsSave),
+    })
+  }
+
+
+}
+componentDidUpdate(prevState){
+  if(prevState.contacts!==this.state.contacts){
+    localStorage.setItem('contacts',JSON.stringify(this.state.contacts))
+  }
+}
+
+
+
 
   changeFilter = (key, value) => {
     this.setState({ [key]: value });
