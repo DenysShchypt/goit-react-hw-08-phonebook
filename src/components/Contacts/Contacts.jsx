@@ -6,7 +6,7 @@ export const Contacts = ({children,valueFilter,onChangeFilter}) => {
     <TitleContacts>Contacts</TitleContacts>
     <FilterTitleContacts >Find contacts by name
     </FilterTitleContacts>
-    <FilterContacts type="text" value={valueFilter} onChange={e=>onChangeFilter('filter',e.target.value)} />
+    <FilterContacts type="text" value={valueFilter} onChange={e=>onChangeFilter(e.target.value)} />
     {children}
     </SectionContacts>
   )
