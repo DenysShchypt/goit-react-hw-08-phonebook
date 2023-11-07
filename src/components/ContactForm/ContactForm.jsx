@@ -6,32 +6,38 @@ import {
   FieldContact,
   FormTitleContacts,
 } from './ContactForm.styled';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too Short!')
     .max(30, 'Too Long!')
     .required('This field is required'),
-  number: Yup.string()
+  phone: Yup.string().matches(/(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})/g,'It`s wrong phone!')
     .min(5, 'Too Short!')
     .max(15, 'Too Long!')
     .required('This field is required'),
 });
 
-export const ContactForm = ({ addListContacts }) => {
+export const ContactForm = () => {
   const dispatch = useDispatch();
+  const listContacts = useSelector(selectContacts);
 
   return (
     <Formik
       initialValues={{
         name: '',
-        number: '',
+        phone: '',
       }}
       validationSchema={ContactSchema}
       onSubmit={(value, actions) => {
-        dispatch(addContact(value.name, value.number));
+        if (listContacts.some(item => item.name === value.name)) {
+          alert(`${value.name} is already in contacts`);
+        } else {
+          dispatch(addContact(value));
+        }
         actions.resetForm();
       }}
     >
@@ -46,8 +52,8 @@ export const ContactForm = ({ addListContacts }) => {
         <div>
           <FormTitleContacts>
             Number
-            <FieldContact type="tel" name="number" required />
-            <ErrorMes name="number" component="div" />
+            <FieldContact type="tel" name="phone" required />
+            <ErrorMes name="phone" component="div" />
           </FormTitleContacts>
         </div>
 
