@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from 'components/GlobalStyle';
 import { Provider } from 'react-redux';
 import { persistor, store } from 'redux/store';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const theme = {
@@ -26,10 +26,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ChakraProvider>
         <ThemeProvider theme={theme}>
           <PersistGate loading={null} persistor={persistor}>
-            <HashRouter>
+          <BrowserRouter basename='/goit-react-hw-08'>
               <App />
               <GlobalStyle />
-            </HashRouter>
+              </BrowserRouter>
           </PersistGate>
         </ThemeProvider>
       </ChakraProvider>
