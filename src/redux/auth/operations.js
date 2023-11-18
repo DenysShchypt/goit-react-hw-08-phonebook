@@ -13,15 +13,16 @@ const clearAuthHeader = () => {
 
 export const register = createAsyncThunk('auth/register', async(newUser,thunkAPI)=>
 {  
- 
     try {
         const {data} =await axios.post('/users/signup',newUser);
 
             setAuthHeader(data.token)
-            return data;
-
-            
+            return data;      
     } catch (error) {
+        if (error.response?.data?.name==='MongoError') {
+            alert("you are already registered, please go to Login")
+        }
+
         return thunkAPI.fulfillWithValue(error.message);
     }
 });

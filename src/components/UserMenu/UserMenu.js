@@ -9,7 +9,7 @@ export const UserMenu = () => {
 
     return (
         <Flex >
-            {user?<Text marginRight='10px' fontSize='3xl'>{user.name}</Text>:alert("you are already registered, please go to Login")}
+            {user&&<Text marginRight='10px' fontSize='3xl'>{user.name}</Text>}
             <Button marginRight='30px' colorScheme='teal' variant='outline' type='button' onClick={() => dispatch(LogOut())}>Logout</Button>
         </Flex>
     )

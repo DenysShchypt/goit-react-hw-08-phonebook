@@ -20,8 +20,6 @@ const authSlice = createSlice({
             state.isLoggedIn = true;
         })
             .addCase(register.rejected, state =>{
-            state.user = { name: null, email: null };
-            state.token = null;
             state.isLoggedIn = false;})
             .addCase(LogIn.fulfilled, (state, action) => {
                 state.user = action.payload.user;
