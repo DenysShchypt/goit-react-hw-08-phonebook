@@ -1,24 +1,30 @@
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import {
-  AddContact,
-  ErrorMes,
-  FieldContact,
-  FormTitleContacts,
-} from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/contacts/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Too Short!')
     .max(30, 'Too Long!')
-    .required('This field is required'),
-  phone: Yup.string().matches(/(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})/g,'It`s wrong phone!')
+    .required('This name is required'),
+  number: Yup.string()
+    .matches(
+      /(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})/g,
+      'It`s wrong phone!'
+    )
     .min(5, 'Too Short!')
     .max(15, 'Too Long!')
-    .required('This field is required'),
+    .required('This number is required'),
 });
 
 export const ContactForm = () => {
@@ -29,11 +35,11 @@ export const ContactForm = () => {
     <Formik
       initialValues={{
         name: '',
-        phone: '',
+        number: '',
       }}
       validationSchema={ContactSchema}
       onSubmit={(value, actions) => {
-        if (listContacts.some(item => item.name === value.name)) {
+        if (listContacts.some(item => item.name.trim() === value.name.trim())) {
           alert(`${value.name} is already in contacts`);
         } else {
           dispatch(addContact(value));
@@ -41,24 +47,57 @@ export const ContactForm = () => {
         actions.resetForm();
       }}
     >
-      <Form>
-        <div>
-          <FormTitleContacts>
-            Name
-            <FieldContact type="text" name="name" required />
-            <ErrorMes name="name" component="div" />
-          </FormTitleContacts>
-        </div>
-        <div>
-          <FormTitleContacts>
-            Number
-            <FieldContact type="tel" name="phone" required />
-            <ErrorMes name="phone" component="div" />
-          </FormTitleContacts>
-        </div>
-
-        <AddContact type="submit">Add contact</AddContact>
-      </Form>
+      {props => (
+        <Box
+          w="50%"
+          marginLeft="auto"
+          marginRight="auto"
+          paddingTop="40px"
+        >
+          <Form>
+            <Field name="name">
+              {({ field, form }) => (
+                <FormControl isInvalid={form.errors.name && form.touched.name}>
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    {...field}
+                    type="text"
+                    name="name"
+                    borderRadius="full"
+                    focusBorderColor="black"
+                  />
+                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Field name="number">
+              {({ field, form }) => (
+                <FormControl
+                  isInvalid={form.errors.number && form.touched.number}
+                >
+                  <FormLabel>Number</FormLabel>
+                  <Input
+                    {...field}
+                    type="tel"
+                    name="number"
+                    borderRadius="full"
+                    focusBorderColor="black"
+                  />
+                  <FormErrorMessage>{form.errors.number}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Button
+              marginTop="3"
+              colorScheme="teal"
+              variant="outline"
+              type="submit"
+            >
+              Add contact
+            </Button>
+          </Form>
+        </Box>
+      )}
     </Formik>
   );
 };

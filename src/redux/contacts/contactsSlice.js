@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact } from './operations'
+import { LogOut } from "redux/auth/operations";
 
 const handlePending = state => {
     state.isLoading = true;
@@ -43,6 +44,11 @@ export const contactsSlice = createSlice({
         builder.addCase(fetchContacts.rejected, handleRejected)
         builder.addCase(addContact.rejected, handleRejected)
         builder.addCase(deleteContact.rejected, handleRejected)
+        builder.addCase(LogOut.fulfilled, (state)=>{
+            state.items=[];
+            state.isLoading=false;
+            state.error=null;
+        })
     },
 });
 
