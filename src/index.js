@@ -23,16 +23,16 @@ const theme = {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ChakraProvider>
-          <ThemeProvider theme={theme}>
+      <ChakraProvider>
+        <ThemeProvider theme={theme}>
+          <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
               <App />
               <GlobalStyle />
             </BrowserRouter>
-          </ThemeProvider>
-        </ChakraProvider>
-      </PersistGate>
+          </PersistGate>
+        </ThemeProvider>
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>
 );
